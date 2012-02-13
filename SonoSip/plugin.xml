@@ -14,7 +14,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RCP Perspective"
+            name="SonoSip Perspective"
             class="sonosip.Perspective"
             id="SonoSip.perspective">
       </perspective>
@@ -29,7 +29,61 @@
                name="appName"
                value="SonoSip">
          </property>
+         <property
+               name="windowImages"
+               value="icons/speaker-volume.png,icons/Speaker_32.png,icons/Speaker_48.png,icons/Speaker_64.png,icons/Speaker_128.png">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="0,235,400,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
       </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="sonosip.views.PlayerView"
+            icon="icons/disc.png"
+            id="sonosip.views.PlayerView"
+            name="Cantiques"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="sonosip.views.RecordView"
+            icon="icons/microphone.png"
+            id="sonosip.views.RecordView"
+            name="Enregistrement"
+            restorable="false">
+      </view>
+      <view
+            allowMultiple="false"
+            class="sonosip.views.RandomPlayerView"
+            icon="icons/speaker-volume.png"
+            id="sonosip.views.RandomPlayerView"
+            name="Fond musical"
+            restorable="false">
+      </view>
+      <view
+            allowMultiple="false"
+            class="sonosip.views.SoftphoneView"
+            icon="icons/mobile-phone-off.png"
+            id="sonosip.views.SoftphoneView"
+            name="Téléphonie"
+            restorable="false">
+      </view>
+      <view
+            allowMultiple="false"
+            class="sonosip.views.EventView"
+            icon="icons/report-paper.png"
+            id="sonosip.views.EventView"
+            name="Événements"
+            restorable="false">
+      </view>
    </extension>
 
 </plugin>

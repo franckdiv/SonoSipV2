@@ -3,12 +3,30 @@
 
 <product name="SonoSip" id="SonoSip.product" application="SonoSip.application" version="2.0" useFeatures="false" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
+
+   <windowImages i16="/SonoSip/icons/speaker-volume.png" i32="/SonoSip/icons/Speaker_32.png" i48="/SonoSip/icons/Speaker_48.png" i64="/SonoSip/icons/Speaker_64.png" i128="/SonoSip/icons/Speaker_128.png"/>
+
+   <splash
+      location="SonoSip"
+      startupProgressRect="0,235,400,15" />
+   <launcher name="SonoSip">
+      <solaris/>
+      <win useIco="true">
+         <ico path="/SonoSip/icons/Speaker.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
 
    <plugins>
       <plugin id="SonoSip"/>
