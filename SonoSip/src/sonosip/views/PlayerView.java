@@ -1,8 +1,5 @@
 package sonosip.views;
 
-import java.io.FileNotFoundException;
-import java.util.Vector;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -19,21 +16,14 @@ import org.eclipse.ui.part.ViewPart;
 
 import sonosip.ressources.RessourcePathPointer;
 
-public class PlayerView extends ViewPart implements ISizeProvider{
+public class PlayerView extends ViewPart implements ISizeProvider {
 
 	public static final String ID = "sonosip.views.PlayerView";
 	
 	public PlayerView() {
-		// TODO Support MP3 player (javazoom)
-		//super();
-		//Mp3Player.getInstance().addMp3PlayerStateListener(this);
 	}
 
-	private Vector<String> songPathList;
-	private Vector<String> songNameList;
-	
 	private Combo songListCombo;
-	private String currentSong;
 	private Composite parent;
 	private Button stopButton;
 	private Button playButton;
@@ -43,7 +33,7 @@ public class PlayerView extends ViewPart implements ISizeProvider{
 	public void createPartControl(Composite parent) {
 		
 		this.parent = parent;
-		Composite composite = new Composite(parent, SWT.FILL);
+		Composite composite = new Composite(this.parent, SWT.FILL);
 	    GridLayout gridLayout = new GridLayout();
 	    gridLayout.numColumns = 1;
 	    composite.setLayout(gridLayout);
@@ -96,16 +86,10 @@ public class PlayerView extends ViewPart implements ISizeProvider{
 		playButton = new Button(buttonComposite, SWT.PUSH | SWT.LEFT);
 		playButton.setText("Lecture");
 		playButton.setEnabled(false); 
-		playButton.setImage(new Image(parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("play.png")));
+		playButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("play.png")));
 		playButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {	
 				if(songListCombo.getSelectionIndex() != -1) {
-//					try {
-//						currentSong = songNameList.get(songListCombo.getSelectionIndex());
-//// TODO						Mp3Player.getInstance().play(songPathList.get(songListCombo.getSelectionIndex()));
-//					} catch (FileNotFoundException e) {
-//						e.printStackTrace();
-//					}
 				}
 			}
 		});
@@ -116,12 +100,11 @@ public class PlayerView extends ViewPart implements ISizeProvider{
 		playButton.setLayoutData(gridData);
 		
 		stopButton = new Button(buttonComposite, SWT.PUSH | SWT.LEFT);
-		stopButton.setImage(new Image(parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("stop.png")));
+		stopButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("stop.png")));
 		stopButton.setText("Stop");
 		stopButton.setEnabled(false);
 		stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-// TODO				Mp3Player.getInstance().stop();
 			}
 		});
 		
@@ -143,7 +126,7 @@ public class PlayerView extends ViewPart implements ISizeProvider{
 		if(width) {
 			return 360;
 		} else {
-			return 100;
+			return 118;
 		}
 	}
 

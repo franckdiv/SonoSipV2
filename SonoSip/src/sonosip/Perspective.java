@@ -7,6 +7,7 @@ import sonosip.views.EventView;
 import sonosip.views.PlayerView;
 import sonosip.views.RandomPlayerView;
 import sonosip.views.RecordView;
+import sonosip.views.SoftphoneServerView;
 import sonosip.views.SoftphoneView;
 
 public class Perspective implements IPerspectiveFactory {
@@ -22,13 +23,17 @@ public class Perspective implements IPerspectiveFactory {
 		layout.getViewLayout(PlayerView.ID).setCloseable(false);  
 		layout.getViewLayout(PlayerView.ID).setMoveable(false);
 		
-		layout.addStandaloneView(RandomPlayerView.ID, true, IPageLayout.BOTTOM, 1f , PlayerView.ID);
+		layout.addStandaloneView(RecordView.ID, true, IPageLayout.BOTTOM, 0f, PlayerView.ID);
+		layout.getViewLayout(RecordView.ID).setCloseable(false);  
+		layout.getViewLayout(RecordView.ID).setMoveable(false);
+		
+		layout.addStandaloneView(RandomPlayerView.ID, true, IPageLayout.BOTTOM, 0f , RecordView.ID);
 		layout.getViewLayout(RandomPlayerView.ID).setCloseable(false);  
 		layout.getViewLayout(RandomPlayerView.ID).setMoveable(false);
 		
-		layout.addStandaloneView(RecordView.ID, true, IPageLayout.BOTTOM, 1f, RandomPlayerView.ID);
-		layout.getViewLayout(RecordView.ID).setCloseable(false);  
-		layout.getViewLayout(RecordView.ID).setMoveable(false);
+		layout.addStandaloneView(SoftphoneServerView.ID, true, IPageLayout.BOTTOM, 0f , RandomPlayerView.ID);
+		layout.getViewLayout(SoftphoneServerView.ID).setCloseable(false);  
+		layout.getViewLayout(SoftphoneServerView.ID).setMoveable(false); 
 		
 		layout.addStandaloneView(EventView.ID, true, IPageLayout.BOTTOM, 1f, SoftphoneView.ID);
 		layout.getViewLayout(EventView.ID).setCloseable(false);  

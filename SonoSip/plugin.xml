@@ -71,9 +71,9 @@
       <view
             allowMultiple="false"
             class="sonosip.views.SoftphoneView"
-            icon="icons/mobile-phone-off.png"
+            icon="icons/user-business.png"
             id="sonosip.views.SoftphoneView"
-            name="Téléphonie"
+            name="Participants"
             restorable="false">
       </view>
       <view
@@ -82,6 +82,14 @@
             icon="icons/report-paper.png"
             id="sonosip.views.EventView"
             name="Événements"
+            restorable="false">
+      </view>
+      <view
+            allowMultiple="false"
+            class="sonosip.views.SoftphoneServerView"
+            icon="icons/mobile-phone-off.png"
+            id="sonosip.views.SoftphoneServerView"
+            name="Téléphonie"
             restorable="false">
       </view>
    </extension>
