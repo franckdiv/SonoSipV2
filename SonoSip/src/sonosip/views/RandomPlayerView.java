@@ -92,7 +92,7 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		if(width) {
 			return 360;
 		} else {
-			return 70;
+			return 53;
 		}
 	}
 

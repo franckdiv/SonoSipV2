@@ -50,7 +50,7 @@ public class RecordView extends ViewPart implements ISizeProvider {
 		if(width) {
 			return 360;
 		} else {
-			return 205;
+			return 187;
 		}
 	}
 

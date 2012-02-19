@@ -46,7 +46,7 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		if(width) {
 			return 360;
 		} else {
-			return 230;
+			return 200;
 		}
 	}
 
@@ -63,47 +63,10 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 	    gridLayout.numColumns = 1;
 	    composite.setLayout(gridLayout);
 	    
-		statusImageHolder = new Label(composite, SWT.NONE);
-		statusImageHolder.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("connection-3.png")));
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.CENTER;
-		gridData.grabExcessHorizontalSpace = true;
-		statusImageHolder.setLayoutData(gridData);
-
-
-		Label infoConnLabel = new Label(composite, SWT.NONE);
-		infoConnLabel.setText("Etat de la connexion :");
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		infoConnLabel.setLayoutData(gridData);
-
-		statusTextLabel = new Label(composite, SWT.NONE);
-		statusTextLabel.setText("Connecté au serveur de téléphonie");
-		statusTextLabel.setForeground(new Color(parent.getDisplay(), 87, 126, 33));
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		statusTextLabel.setLayoutData(gridData);
-		
-
-		this.reconnectButton = new Button(composite, SWT.PUSH | SWT.LEFT);
-		this.reconnectButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("plug-disconnect.png")));
-		this.reconnectButton.setText("Reconnecter au serveur de téléphonie");
-		this.reconnectButton.setEnabled(false);
-		this.reconnectButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-			}
-		});
-		
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		this.reconnectButton.setLayoutData(gridData);
 		
 		Label infoLabel = new Label(composite, SWT.NONE);
 		infoLabel.setText("Retransmition du programme :");
-		gridData = new GridData();
+		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		infoLabel.setLayoutData(gridData);
@@ -158,7 +121,46 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		stopButton.setLayoutData(gridData);
-	
+
+
+		Label infoConnLabel = new Label(composite, SWT.NONE);
+		infoConnLabel.setText("Etat de la connexion :");
+		gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		infoConnLabel.setLayoutData(gridData);
+
+		statusTextLabel = new Label(composite, SWT.NONE);
+		statusTextLabel.setText("Connecté au serveur de téléphonie");
+		statusTextLabel.setForeground(new Color(parent.getDisplay(), 87, 126, 33));
+		gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		statusTextLabel.setLayoutData(gridData);
+		
+
+		this.reconnectButton = new Button(composite, SWT.PUSH | SWT.LEFT);
+		this.reconnectButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("plug-disconnect.png")));
+		this.reconnectButton.setText("Reconnecter au serveur de téléphonie");
+		this.reconnectButton.setEnabled(false);
+		this.reconnectButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+			}
+		});
+		
+		gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		this.reconnectButton.setLayoutData(gridData);
+
+		
+		
+		statusImageHolder = new Label(composite, SWT.NONE);
+		statusImageHolder.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("connection-3.png")));
+		gridData = new GridData();
+		gridData.horizontalAlignment = SWT.CENTER;
+		gridData.grabExcessHorizontalSpace = true;
+		statusImageHolder.setLayoutData(gridData);
 		
 		
 	}

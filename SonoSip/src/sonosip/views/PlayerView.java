@@ -126,7 +126,7 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		if(width) {
 			return 360;
 		} else {
-			return 118;
+			return 100;
 		}
 	}
 
