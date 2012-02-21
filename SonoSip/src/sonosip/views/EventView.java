@@ -74,6 +74,7 @@ public class EventView extends ViewPart implements ISizeProvider {
 				}
 				item.setText (0, " " + _event.getMessage());
 				item.setText (1, dateFormatter.format(_event.getDate()));
+				eventTable.showItem(item);
 			}
 		});
 	}
