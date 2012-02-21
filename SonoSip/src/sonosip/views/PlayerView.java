@@ -19,6 +19,7 @@ import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
 import sonosip.player.PlayerManager;
+import sonosip.player.PlayerState;
 import sonosip.ressources.RessourcePathPointer;
 import sonosip.utils.EventLogger;
 
@@ -158,10 +159,16 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		});
 	}
 	
-	public void handlePlayerStatus(int playerStatus) {
-		final int _playerStatus = playerStatus;
+	public void handlePlayerState(int playerState) {
+		final int _playerState = playerState;
 		this.parent.getDisplay().asyncExec (new Runnable () {
 			public void run () {	
+				if(_playerState == PlayerState.PLAY || _playerState == PlayerState.PLAY_RANDOM) {
+					stopButton.setEnabled(true); 
+				}
+				if(_playerState == PlayerState.STOP) { 
+					stopButton.setEnabled(false); 
+				}
 			}
 		});
 	}

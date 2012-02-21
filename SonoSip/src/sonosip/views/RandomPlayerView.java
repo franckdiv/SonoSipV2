@@ -12,6 +12,7 @@ import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
 import sonosip.player.PlayerManager;
+import sonosip.player.PlayerState;
 import sonosip.ressources.RessourcePathPointer;
 import sonosip.utils.EventLogger;
 
@@ -56,8 +57,6 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		playButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				PlayerManager.getInstance().playRandom();
-				playButton.setEnabled(false); 
-				stopButton.setEnabled(true);
 			}
 		});
 
@@ -73,8 +72,6 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				PlayerManager.getInstance().stop();
-				playButton.setEnabled(true); 
-				stopButton.setEnabled(false); 
 			}
 		});
 		
@@ -106,5 +103,25 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		return SWT.MIN;
 	}
 
+
+	public void handlePlayerState(int playerState) {
+		final int _playerState = playerState;
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {
+				if(_playerState == PlayerState.PLAY) {
+					playButton.setEnabled(false); 
+					stopButton.setEnabled(false); 
+				}
+				if(_playerState == PlayerState.STOP) {
+					playButton.setEnabled(true); 
+					stopButton.setEnabled(false); 
+				}
+				if(_playerState == PlayerState.PLAY_RANDOM) {
+					playButton.setEnabled(false); 
+					stopButton.setEnabled(true); 
+				}
+			}
+		});
+	}
 
 }

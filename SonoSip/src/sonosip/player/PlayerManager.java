@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.StringBufferInputStream;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.LogManager;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -23,8 +26,7 @@ import sonosip.utils.EventLogger;
 import sonosip.views.PlayerView;
 import sonosip.views.RandomPlayerView;
 
-public class PlayerManager {
-
+public class PlayerManager extends PlaybackListener {
 
     private static PlayerManager instance;
 
@@ -33,6 +35,8 @@ public class PlayerManager {
     
     private AdvancedPlayer player;
 	private Thread playerThread;
+	private int playerState;
+	private Random random;
     
 	private Vector<String> songPathList;
 	private Vector<String> songNameList;
@@ -47,6 +51,8 @@ public class PlayerManager {
     private PlayerManager() {		
     	songPathList = new Vector<String>();		
     	songNameList = new Vector<String>();
+    	random = new Random();
+    	playerState = PlayerState.STOP;
 
 		IPropertyChangeListener preferenceListener = new IPropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent event) {
@@ -74,7 +80,10 @@ public class PlayerManager {
 			player.close();
 		}
 		playerThread = null;
+
+    	playerState = PlayerState.STOP;
     	EventLogger.addInfo("Arrêt de la lecture des cantique");
+    	notifyPlayerStateChange();
     }
     
     public void play(int track) {
@@ -87,7 +96,10 @@ public class PlayerManager {
 		    		}
 					FileInputStream fis = new FileInputStream(songPathList.get(_track));
 					player = new AdvancedPlayer(fis);
+
+			    	playerState = PlayerState.PLAY;
 			    	EventLogger.addInfo("Lecture du cantique n°" + songNameList.get(_track));
+			    	notifyPlayerStateChange();
 					player.play();
 				} catch (FileNotFoundException | JavaLayerException e) {
 					EventLogger.addError(e.getMessage());
@@ -98,8 +110,29 @@ public class PlayerManager {
 		playerThread.start();
     }
     
-    public void playRandom() {
-    	EventLogger.addInfo("Lecture des cantiques en fond musical");
+    public void playRandom() {    
+		Runnable runnable = new Runnable () {
+			public void run () {	
+		    	try {
+		    		if(player != null) {
+		    			player.close();
+		    		}
+		    		if(songPathList.size() > 0) {
+						FileInputStream fis = new FileInputStream(songPathList.get(random.nextInt(songPathList.size())));
+						player = new AdvancedPlayer(fis);
+		
+				    	playerState = PlayerState.PLAY_RANDOM;
+				    	EventLogger.addInfo("Lecture des cantiques en fond musical");
+				    	notifyPlayerStateChange();
+						player.play();
+		    		}
+				} catch (FileNotFoundException | JavaLayerException e) {
+					EventLogger.addError(e.getMessage());
+				}
+			}
+		};
+		playerThread = new Thread(runnable);
+		playerThread.start();
     }
     
     public Vector<String> getPlayList() {
@@ -143,6 +176,24 @@ public class PlayerManager {
 			this.playerView.updatePlaylist(this.songNameList);
 		}
 		
+	}
+	
+	public void playbackFinished(PlaybackEvent evt) {
+		if (playerState == PlayerState.PLAY_RANDOM) {
+			this.playRandom();
+		} else {
+			this.stop();
+		}
+	}
+	
+	public void notifyPlayerStateChange() {
+		if(this.playerView != null) {
+			this.playerView.handlePlayerState(playerState);
+		} 
+		
+		if(this.randomPlayerView != null) {
+			this.randomPlayerView.handlePlayerState(playerState);
+		}
 	}
     
 }
