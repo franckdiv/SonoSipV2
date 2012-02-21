@@ -2,6 +2,7 @@ package sonosip.views;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -27,7 +28,6 @@ public class RecordView extends ViewPart implements ISizeProvider {
 
 	private Combo congregationListCombo;
 	private Combo meetingTypeListCombo;
-	private String currentRecord;
 	private Composite parent;
 	private Button stopButton;
 	private Button recButton;
@@ -149,7 +149,8 @@ public class RecordView extends ViewPart implements ISizeProvider {
 		this.recButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {	
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
-				currentRecord = congregationListCombo.getText() + "_" + meetingTypeListCombo.getText() + "_" + simpleDateFormat.format(new Date(System.currentTimeMillis()));
+				String recordName = congregationListCombo.getText() + "_" + meetingTypeListCombo.getText() + "_" + simpleDateFormat.format(new Date(System.currentTimeMillis()));
+				RecordManager.getInstance().record(recordName);
 			}
 		});
 
@@ -189,5 +190,19 @@ public class RecordView extends ViewPart implements ISizeProvider {
 
 		RecordManager.getInstance().setRecordView(this);
 		
+	}
+	
+	public void updateCongregationList(Vector<String> congregationList) {
+		final Vector<String> _congregationList = congregationList;
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				congregationListCombo.removeAll();
+				String[] congregationNameValues = new String[_congregationList.size()];
+				for (int i = 0 ; i < _congregationList.size() ; i++) {
+					congregationNameValues[i] = _congregationList.get(i);
+				}
+				congregationListCombo.setItems(congregationNameValues);
+			}
+		});
 	}
 }

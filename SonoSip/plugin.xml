@@ -115,6 +115,23 @@
             id="sonosip.preferences.PlayerPreferencePage"
             name="Cantiques">
       </page>
+      <page
+            class="sonosip.preferences.RecordPreferencePage"
+            id="sonosip.preferences.RecordPreferencePage"
+            name="Enregistrement">
+      </page>
+      <page
+            category="sonosip.preferences.RecordPreferencePage"
+            class="sonosip.preferences.RecorderPreferencePage"
+            id="sonosip.preferences.RecorderPreferencePage"
+            name="Dossier de destination">
+      </page>
+      <page
+            category="sonosip.preferences.RecordPreferencePage"
+            class="sonosip.preferences.CongregationPreferencePage"
+            id="sonosip.preferences.CongregationPreferencePage"
+            name="Congrégations">
+      </page>
    </extension>
 
 </plugin>
