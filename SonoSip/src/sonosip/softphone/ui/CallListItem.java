@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import sonosip.ressources.RessourcePathPointer;
 import sonosip.softphone.CallStatus;
-import sonosip.softphone.ui.interfaces.CallListItemEventListener;
+import sonosip.softphone.SoftphoneManager;
 
 public class CallListItem extends Composite {
 
@@ -27,41 +27,34 @@ public class CallListItem extends Composite {
 	protected int callStatus = 0;
 	protected int callId = 0;
 	
-	protected CallListItemEventListener eventListener; 
 	
 	
 	Listener cancelRequestListener = new Listener() {
 		@Override
 		public void handleEvent(Event arg0) {
-			if(eventListener != null) {
-				eventListener.onClickCancelCallerSpeakRequestButton();
-			}
+			SoftphoneManager.getInstance().cancelCallerSpeakRequestButton(callId);
 		}
 	};	
 	Listener connectMicroListener = new Listener() {
 		@Override
 		public void handleEvent(Event arg0) {
-			if(eventListener != null) {
-				eventListener.onClickConnectCallerMicrophoneButton();
-			}
+			SoftphoneManager.getInstance().connectCallerMicrophoneButton(callId);
 		}
 	};	
 	Listener disconnectMicroListener = new Listener() {
 		@Override
 		public void handleEvent(Event arg0) {
-			if(eventListener != null) {
-				eventListener.onClickDisconnectCallerMicrophoneButton();
-			}
+			SoftphoneManager.getInstance().disconnectCallerMicrophoneButton(callId);
 		}
 	};
 	
-	public void setEventListener(CallListItemEventListener eventListener) {
-		this.eventListener = eventListener;
-	}
+	
 
 	public CallListItem(Composite parent, String callerName, int callId, int callStatus) {
 		super(parent, SWT.BORDER);
 		this.parent = parent;
+		this.callId = callId;
+		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 5;
 		gridLayout.horizontalSpacing = 0;

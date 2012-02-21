@@ -1,5 +1,8 @@
 package sonosip.views;
 
+import java.util.Date;
+import java.util.Vector;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -11,10 +14,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
+import sonosip.player.PlayerManager;
 import sonosip.ressources.RessourcePathPointer;
+import sonosip.utils.EventLogger;
 
 public class PlayerView extends ViewPart implements ISizeProvider {
 
@@ -88,8 +94,9 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		playButton.setEnabled(false); 
 		playButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("play.png")));
 		playButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {	
+			public void widgetSelected(SelectionEvent event) {
 				if(songListCombo.getSelectionIndex() != -1) {
+					PlayerManager.getInstance().play(songListCombo.getSelectionIndex());
 				}
 			}
 		});
@@ -105,6 +112,7 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		stopButton.setEnabled(false);
 		stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				PlayerManager.getInstance().stop();
 			}
 		});
 		
@@ -113,7 +121,8 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		gridData.grabExcessHorizontalSpace = true;
 		stopButton.setLayoutData(gridData);
 		
-		
+
+		PlayerManager.getInstance().setPlayerView(this);
 	}
 
 	@Override
@@ -135,4 +144,25 @@ public class PlayerView extends ViewPart implements ISizeProvider {
 		return SWT.MIN;
 	}
 
+	public void updatePlaylist(Vector<String> playlist) {
+		final Vector<String> _playlist = playlist;
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				songListCombo.removeAll();
+				String[] songNameValues = new String[_playlist.size()];
+				for (int i = 0 ; i < _playlist.size() ; i++) {
+					songNameValues[i] = _playlist.get(i);
+				}
+				songListCombo.setItems(songNameValues);
+			}
+		});
+	}
+	
+	public void handlePlayerStatus(int playerStatus) {
+		final int _playerStatus = playerStatus;
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+			}
+		});
+	}
 }

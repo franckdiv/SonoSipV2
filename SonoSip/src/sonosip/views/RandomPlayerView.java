@@ -11,20 +11,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
+import sonosip.player.PlayerManager;
 import sonosip.ressources.RessourcePathPointer;
+import sonosip.utils.EventLogger;
 
 public class RandomPlayerView extends ViewPart implements ISizeProvider {
 
 	public static final String ID = "sonosip.views.RandomPlayerView";
 	
-	public RandomPlayerView() {
-		// TODO Auto-generated constructor stub
-	}
 	private Composite parent;
 	private Button stopButton;
 	private Button playButton;
 	
 
+	public RandomPlayerView() {
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		
@@ -52,7 +54,8 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		playButton.setEnabled(true); 
 		playButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("play.png")));
 		playButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {	
+			public void widgetSelected(SelectionEvent event) {
+				PlayerManager.getInstance().playRandom();
 				playButton.setEnabled(false); 
 				stopButton.setEnabled(true);
 			}
@@ -69,6 +72,7 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		stopButton.setEnabled(false);
 		stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				PlayerManager.getInstance().stop();
 				playButton.setEnabled(true); 
 				stopButton.setEnabled(false); 
 			}
@@ -79,6 +83,7 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 		gridData.grabExcessHorizontalSpace = true;
 		stopButton.setLayoutData(gridData);
 		
+		PlayerManager.getInstance().setRandomPlayerView(this);
 		
 	}
 

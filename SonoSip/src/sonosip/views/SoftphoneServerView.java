@@ -14,6 +14,7 @@ import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
 import sonosip.ressources.RessourcePathPointer;
+import sonosip.softphone.SoftphoneManager;
 
 public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 
@@ -29,14 +30,11 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 	
 	
 	public SoftphoneServerView() {
-		// TODO Auto-generated constructor stub
 	}
 
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
 	}
 
 
@@ -162,6 +160,7 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		gridData.grabExcessHorizontalSpace = true;
 		statusImageHolder.setLayoutData(gridData);
 		
-		
+
+		SoftphoneManager.getInstance().setSoftphoneServerView(this);
 	}
 }

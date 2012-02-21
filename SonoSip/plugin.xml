@@ -108,5 +108,13 @@
          </toolbar>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="sonosip.preferences.PlayerPreferencePage"
+            id="sonosip.preferences.PlayerPreferencePage"
+            name="Cantiques">
+      </page>
+   </extension>
 
 </plugin>

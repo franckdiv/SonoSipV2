@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
+import sonosip.record.RecordManager;
 import sonosip.ressources.RessourcePathPointer;
 
 public class RecordView extends ViewPart implements ISizeProvider {
@@ -33,7 +34,6 @@ public class RecordView extends ViewPart implements ISizeProvider {
 	private Button openButton;
 	
 	public RecordView() {
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -186,6 +186,8 @@ public class RecordView extends ViewPart implements ISizeProvider {
 		gridData.grabExcessHorizontalSpace = true;
 		this.openButton.setLayoutData(gridData);
 		
+
+		RecordManager.getInstance().setRecordView(this);
 		
 	}
 }
