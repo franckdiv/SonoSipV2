@@ -18,7 +18,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
+import sonosip.player.PlayerState;
 import sonosip.record.RecordManager;
+import sonosip.record.RecordState;
 import sonosip.ressources.RessourcePathPointer;
 
 public class RecordView extends ViewPart implements ISizeProvider {
@@ -165,6 +167,7 @@ public class RecordView extends ViewPart implements ISizeProvider {
 		this.stopButton.setEnabled(false);
 		this.stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				RecordManager.getInstance().stop();
 			}
 		});
 		
@@ -202,6 +205,23 @@ public class RecordView extends ViewPart implements ISizeProvider {
 					congregationNameValues[i] = _congregationList.get(i);
 				}
 				congregationListCombo.setItems(congregationNameValues);
+			}
+		});
+	}
+	
+
+	
+	public void handleRecordState(int recordState) {
+		final int _recordState = recordState;
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				if(_recordState == RecordState.RECORD) {
+					stopButton.setEnabled(true); 
+					recButton.setEnabled(false); 
+				} else if(_recordState == RecordState.STOP) { 
+					stopButton.setEnabled(false); 
+					recButton.setEnabled(true); 
+				}
 			}
 		});
 	}

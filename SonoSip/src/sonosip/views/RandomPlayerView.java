@@ -14,7 +14,6 @@ import org.eclipse.ui.part.ViewPart;
 import sonosip.player.PlayerManager;
 import sonosip.player.PlayerState;
 import sonosip.ressources.RessourcePathPointer;
-import sonosip.utils.EventLogger;
 
 public class RandomPlayerView extends ViewPart implements ISizeProvider {
 
