@@ -43,6 +43,8 @@ public class RecordConvertionJob extends Job {
 			attrs.setAudioAttributes(audio);
 			Encoder encoder = new Encoder();
 			encoder.encode(this.wavFile, target, attrs, new EncoderProgressListener() {
+
+				int progress = 0;
 				
 				@Override
 				public void sourceInfo(MultimediaInfo arg0) {
@@ -50,7 +52,8 @@ public class RecordConvertionJob extends Job {
 				
 				@Override
 				public void progress(int arg0) {
-					monitor.worked(arg0);
+					monitor.worked(arg0 - progress);
+					progress = arg0;
 				}
 				
 				@Override

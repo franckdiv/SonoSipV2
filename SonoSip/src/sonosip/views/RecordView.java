@@ -181,6 +181,7 @@ public class RecordView extends ViewPart implements ISizeProvider {
 		this.openButton.setText("Ouvrir le dossier des enregistrements");
 		this.openButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				RecordManager.getInstance().openRecordFolder();
 			}
 		});
 		

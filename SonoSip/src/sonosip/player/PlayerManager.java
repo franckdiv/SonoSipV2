@@ -169,7 +169,7 @@ public class PlayerManager extends PlaybackListener {
 		}
 		
 		if(songNameList.isEmpty()) {
-			EventLogger.addError("Aucun cantique n'a été trouvé, veuillez vérifiez la configuration !");
+			EventLogger.addAlert("Aucun cantique n'a été trouvé, veuillez vérifiez la configuration !");
 		}
 		
 		if(this.playerView != null) {

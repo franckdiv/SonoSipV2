@@ -1,5 +1,6 @@
 package sonosip.record;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -12,6 +13,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -72,7 +74,7 @@ public class RecordManager {
     private void updateRecordPath() {
 		String recordPath = Activator.getDefault().getPreferenceStore().getString(RecorderPreferencePage.RECORD_PATH);
 		if(recordPath.isEmpty()) {
-			EventLogger.addError("Le dossier des enregistrements n'est pas paramétré, veuillez vérifiez la configuration !");
+			EventLogger.addAlert("Le dossier des enregistrements n'est pas paramétré, veuillez vérifiez la configuration !");
 		}
     }
     
@@ -88,7 +90,7 @@ public class RecordManager {
 
 		
 		if(congregationList.isEmpty()) {
-			EventLogger.addError("Aucune congrégation n'a été ajoutée, veuillez vérifiez la configuration !");
+			EventLogger.addAlert("Aucune congrégation n'a été ajoutée, veuillez vérifiez la configuration !");
 		}
 		
 		if(this.recordView != null) {
@@ -112,6 +114,7 @@ public class RecordManager {
 				targetLine.open(format);
 				targetLine.start();
 				
+				
 				final String filePath = Activator.getDefault().getPreferenceStore().getString(RecorderPreferencePage.RECORD_PATH);
 				if(filePath != null && !"".equals(filePath)) {
 					final AudioInputStream stream = new AudioInputStream(targetLine);
@@ -125,6 +128,7 @@ public class RecordManager {
 							try {
 								AudioSystem.write(stream, fileType, audioFile);
 								RecordConvertionJob job = new RecordConvertionJob(audioFile);
+								job.setUser(true);
 								job.schedule();
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -166,5 +170,22 @@ public class RecordManager {
 		if(this.recordView != null) {
 			this.recordView.handleRecordState(recordState);
 		} 
+	}
+	
+	public void openRecordFolder() {
+		new Thread() {
+			public void run() {
+				String recordPath = Activator.getDefault().getPreferenceStore().getString(RecorderPreferencePage.RECORD_PATH);
+				if(recordPath.isEmpty()) {
+					EventLogger.addAlert("Le dossier des enregistrements n'est pas paramétré, veuillez vérifiez la configuration !");
+				} else {
+					try {
+						Desktop.getDesktop().open(new File(recordPath));
+					} catch (IOException e) {
+						EventLogger.addError("Impossible d'ouvrir le dossier des enregistrements, veuillez vérifiez la configuration !");
+					}
+				}
+			}
+		}.start();
 	}
 }
