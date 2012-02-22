@@ -78,6 +78,7 @@ public class PlayerManager extends PlaybackListener {
     public void stop() {
     	if (this.player != null) {
 			player.close();
+			player = null;
 		}
 		playerThread = null;
 
@@ -100,6 +101,7 @@ public class PlayerManager extends PlaybackListener {
 			    	playerState = PlayerState.PLAY;
 			    	EventLogger.addInfo("Lecture du cantique n°" + songNameList.get(_track));
 			    	notifyPlayerStateChange();
+			    	player.setPlayBackListener(PlayerManager.getInstance());
 					player.play();
 				} catch (FileNotFoundException | JavaLayerException e) {
 					EventLogger.addError(e.getMessage());
@@ -116,14 +118,16 @@ public class PlayerManager extends PlaybackListener {
 		    	try {
 		    		if(player != null) {
 		    			player.close();
+		    		} else {
+				    	EventLogger.addInfo("Lecture des cantiques en fond musical");
 		    		}
 		    		if(songPathList.size() > 0) {
 						FileInputStream fis = new FileInputStream(songPathList.get(random.nextInt(songPathList.size())));
 						player = new AdvancedPlayer(fis);
 		
 				    	playerState = PlayerState.PLAY_RANDOM;
-				    	EventLogger.addInfo("Lecture des cantiques en fond musical");
 				    	notifyPlayerStateChange();
+				    	player.setPlayBackListener(PlayerManager.getInstance());
 						player.play();
 		    		}
 				} catch (FileNotFoundException | JavaLayerException e) {
@@ -182,7 +186,14 @@ public class PlayerManager extends PlaybackListener {
 		if (playerState == PlayerState.PLAY_RANDOM) {
 			this.playRandom();
 		} else {
-			this.stop();
+	    	if (this.player != null) {
+				player.close();
+				player = null;
+			}
+			playerThread = null;
+
+	    	playerState = PlayerState.STOP;
+	    	notifyPlayerStateChange();
 		}
 	}
 	
