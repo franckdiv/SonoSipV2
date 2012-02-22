@@ -8,4 +8,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ClassPath: jaudiotagger-2.0.3.jar,jl1.0.1.jar,.
+Bundle-ClassPath: jaudiotagger-2.0.3.jar,jl1.0.1.jar,jave-1.0.2.jar,.

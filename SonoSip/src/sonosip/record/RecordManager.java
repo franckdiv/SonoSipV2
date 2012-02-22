@@ -114,7 +114,6 @@ public class RecordManager {
 				
 				final String filePath = Activator.getDefault().getPreferenceStore().getString(RecorderPreferencePage.RECORD_PATH);
 				if(filePath != null && !"".equals(filePath)) {
-					final String fileNameToEncode = fileName;
 					final AudioInputStream stream = new AudioInputStream(targetLine);
 					final AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 		            final File audioFile = new File(filePath + File.separator + fileName + ".wav");	
@@ -125,13 +124,15 @@ public class RecordManager {
 						public void run() {
 							try {
 								AudioSystem.write(stream, fileType, audioFile);
+								RecordConvertionJob job = new RecordConvertionJob(audioFile);
+								job.schedule();
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
 						}
 					}.start();
 					
-					EventLogger.addInfo("Enregistrement du programme en cours : " + fileName);
+					EventLogger.addInfo("Enregistrement du programme en cours - " + fileName);
 					recordState = RecordState.RECORD;
 					notifyRecordStateChange();
 				}

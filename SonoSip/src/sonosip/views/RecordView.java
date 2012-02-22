@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
-import sonosip.player.PlayerState;
 import sonosip.record.RecordManager;
 import sonosip.record.RecordState;
 import sonosip.ressources.RessourcePathPointer;
