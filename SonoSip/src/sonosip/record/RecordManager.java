@@ -136,7 +136,7 @@ public class RecordManager {
 						}
 					}.start();
 					
-					EventLogger.addInfo("Enregistrement du programme en cours - " + fileName);
+					EventLogger.addInfo("Enregistrement du programme en cours");
 					recordState = RecordState.RECORD;
 					notifyRecordStateChange();
 				}

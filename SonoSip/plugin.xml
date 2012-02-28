@@ -132,6 +132,23 @@
             id="sonosip.preferences.CongregationPreferencePage"
             name="Congrégations">
       </page>
+      <page
+            class="sonosip.preferences.SoftphonePreferencePage"
+            id="sonosip.preferences.SoftphonePreferencePage"
+            name="Téléphonie">
+      </page>
+      <page
+            category="sonosip.preferences.SoftphonePreferencePage"
+            class="sonosip.preferences.SipPreferencePage"
+            id="sonosip.preferences.SipPreferencePage"
+            name="Paramètres SIP">
+      </page>
+      <page
+            category="sonosip.preferences.SoftphonePreferencePage"
+            class="sonosip.preferences.UsersPreferencePage"
+            id="sonosip.preferences.UsersPreferencePage"
+            name="Utilisateurs">
+      </page>
    </extension>
 
 </plugin>
