@@ -1,5 +1,7 @@
 package sonosip.views;
 
+import java.util.HashMap;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Color;
@@ -17,6 +19,8 @@ public class SoftphoneView extends ViewPart {
 	
 	private ScrolledComposite 				scrolledComposite;
 	private Composite 						listItemHolder;
+	private Composite 						parent;
+	private HashMap<Integer, CallListItem> 	callListItemList;
 	
 	public SoftphoneView() {
 	}
@@ -24,7 +28,7 @@ public class SoftphoneView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		
+		this.parent = parent;
 		scrolledComposite = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setExpandVertical(true);
@@ -40,43 +44,6 @@ public class SoftphoneView extends ViewPart {
 	    scrolledComposite.setContent(listItemHolder);
 		
 		computeScrolledCompositeSize();
-
-		
-		CallListItem c = new CallListItem(listItemHolder,"Hidalgo Luc", 1, 5);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		c.setLayoutData(gridData);
-
-
-		c = new CallListItem(listItemHolder,"Hidalgo Luc", 1, 6);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		c.setLayoutData(gridData);
-		
-		c = new CallListItem(listItemHolder,"Hidalgo Luc", 1, 7);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		c.setLayoutData(gridData);
-		
-		c = new CallListItem(listItemHolder,"Hidalgo Luc", 1, 8);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		c.setLayoutData(gridData);
-		
-		c = new CallListItem(listItemHolder,"Hidalgo Luc", 1, 9);
-		gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		c.setLayoutData(gridData);
-		
-
-		computeScrolledCompositeSize();
-		
-
 		SoftphoneManager.getInstance().setSoftphoneView(this);
 	}
 	
@@ -87,8 +54,44 @@ public class SoftphoneView extends ViewPart {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
-
+	
+	public void addCall(final int callId, final String callerName, final int callStatus) {
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				CallListItem c = new CallListItem(listItemHolder, callerName, callId, callStatus);
+				GridData gridData = new GridData();
+				gridData.horizontalAlignment = SWT.FILL;
+				gridData.grabExcessHorizontalSpace = true;
+				c.setLayoutData(gridData);
+				
+				callListItemList.put(new Integer(callId), c);
+				
+				computeScrolledCompositeSize();
+			}
+		});
+	}
+	
+	public void updateCallStatus(final int callId, final int callStatus) {
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				CallListItem c = callListItemList.get(new Integer(callId));
+				c.handleCallStatus(callStatus);
+			}
+		});
+	}
+	
+	public void removeCall(final int callId) {
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+				CallListItem c = callListItemList.get(new Integer(callId));
+				c.dispose();
+				computeScrolledCompositeSize();
+				callListItemList.remove(new Integer(callId));
+			}
+		});
+	}
+	
+	
 }

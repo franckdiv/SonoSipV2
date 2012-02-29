@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import sonosip.preferences.UsersPreferencePage;
 import sonosip.ressources.RessourcePathPointer;
 
 public class AddUserWizardPage extends WizardPage {
@@ -76,7 +77,7 @@ public class AddUserWizardPage extends WizardPage {
 	}
 
 	public String getUserName() {
-		return accessCode + " - " + userName.getText();
+		return accessCode + UsersPreferencePage.USER_PASSWORD_SEPARATOR + userName.getText();
 	}
 
 }

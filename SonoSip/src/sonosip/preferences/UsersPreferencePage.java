@@ -28,6 +28,8 @@ public class UsersPreferencePage extends PreferencePage implements IWorkbenchPre
 
 
 	public static final String USER_LIST = "preference.softphone.userlist";
+	public static final String USER_SEPARATOR = "¤";
+	public static final String USER_PASSWORD_SEPARATOR = " - ";
 	
 	private List userList;
 	
@@ -68,7 +70,7 @@ public class UsersPreferencePage extends PreferencePage implements IWorkbenchPre
 
 		String 	userListString = Activator.getDefault().getPreferenceStore().getString(UsersPreferencePage.USER_LIST);
 	
-		StringTokenizer tokenizer = new StringTokenizer(userListString, "¤");
+		StringTokenizer tokenizer = new StringTokenizer(userListString, UsersPreferencePage.USER_SEPARATOR);
 		int tokenCount = tokenizer.countTokens();
 		String[] elements = new String[tokenCount];
 	
@@ -124,7 +126,7 @@ public class UsersPreferencePage extends PreferencePage implements IWorkbenchPre
 	protected void performDefaults() {		
 		String 	userListString = Activator.getDefault().getPreferenceStore().getString(UsersPreferencePage.USER_LIST);
 	
-		StringTokenizer tokenizer = new StringTokenizer(userListString, "¤");
+		StringTokenizer tokenizer = new StringTokenizer(userListString, UsersPreferencePage.USER_SEPARATOR);
 		int tokenCount = tokenizer.countTokens();
 		String[] elements = new String[tokenCount];
 	
@@ -139,7 +141,7 @@ public class UsersPreferencePage extends PreferencePage implements IWorkbenchPre
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
-			buffer.append("¤");
+			buffer.append(UsersPreferencePage.USER_SEPARATOR);
 		}
 		Activator.getDefault().getPreferenceStore().setValue(UsersPreferencePage.USER_LIST, buffer.toString());
 		return super.performOk();

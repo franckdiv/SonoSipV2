@@ -14,6 +14,7 @@ import org.eclipse.ui.ISizeProvider;
 import org.eclipse.ui.part.ViewPart;
 
 import sonosip.ressources.RessourcePathPointer;
+import sonosip.softphone.ConnectionStatus;
 import sonosip.softphone.SoftphoneManager;
 
 public class SoftphoneServerView extends ViewPart implements ISizeProvider {
@@ -84,15 +85,11 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		
 		startButton = new Button(buttonComposite, SWT.PUSH | SWT.LEFT);
 		startButton.setText("Commencer");
-		startButton.setEnabled(true); 
+		startButton.setEnabled(false); 
 		startButton.setImage(new Image(this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("play.png")));
 		startButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {	
-				startButton.setEnabled(false); 
-				stopButton.setEnabled(true);
-
-				statusTextLabel.setText("Connecté au serveur de téléphonie - Retransmition activée");
-				statusImageHolder.setImage(new Image(SoftphoneServerView.this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("connection-4.png")));
+				SoftphoneManager.getInstance().startRetransmition();
 			}
 		});
 
@@ -107,11 +104,7 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		stopButton.setEnabled(false); 
 		stopButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				startButton.setEnabled(true); 
-				stopButton.setEnabled(false); 
-
-				statusTextLabel.setText("Connecté au serveur de téléphonie");
-				statusImageHolder.setImage(new Image(SoftphoneServerView.this.parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("connection-3.png")));
+				SoftphoneManager.getInstance().stopRetransmition();
 			}
 		});
 		
@@ -129,8 +122,8 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		infoConnLabel.setLayoutData(gridData);
 
 		statusTextLabel = new Label(composite, SWT.NONE);
-		statusTextLabel.setText("Connecté au serveur de téléphonie");
-		statusTextLabel.setForeground(new Color(parent.getDisplay(), 87, 126, 33));
+		statusTextLabel.setText("Module de téléphonie inactif");
+		statusTextLabel.setForeground(new Color(parent.getDisplay(), 150, 150, 150));
 		gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -143,6 +136,7 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		this.reconnectButton.setEnabled(false);
 		this.reconnectButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				SoftphoneManager.getInstance().reconnectServer();
 			}
 		});
 		
@@ -162,5 +156,34 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 		
 
 		SoftphoneManager.getInstance().setSoftphoneServerView(this);
+	}
+	
+	public void updateConnectionStatus(final int connectionStatus) {
+		this.parent.getDisplay().asyncExec (new Runnable () {
+			public void run () {	
+
+				switch (connectionStatus) {
+				case ConnectionStatus.NO_INTERNET:
+					
+					break;
+				case ConnectionStatus.UNABLE_TO_CONNECT:
+					
+					break;
+				case ConnectionStatus.DISCONNECTED:
+					
+					break;
+				case ConnectionStatus.CONNECTED:
+					
+					break;
+				case ConnectionStatus.CONNECTED_TRANSMITING:
+					
+					break;
+
+				default:
+					break;
+				}
+				
+			}
+		});
 	}
 }
