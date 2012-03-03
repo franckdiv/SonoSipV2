@@ -17,7 +17,10 @@ import sonosip.views.SoftphoneView;
 
 public class SoftphoneManager {
 
-
+    static {
+        System.loadLibrary("SonoSip"); 
+    }
+    
     private static SoftphoneManager instance;
     
     private int connectionStatus;
@@ -72,7 +75,7 @@ public class SoftphoneManager {
 		try {		
 			File rootFolder = new File(Platform.getInstanceLocation().getURL().getFile());
 			if(rootFolder.exists()) {							
-				nSetRessourcePath(rootFolder.getParentFile().getAbsolutePath() + File.separator + "ext-ress");	
+				nInitSoftphone(rootFolder.getParentFile().getAbsolutePath() + File.separator + "ext-ress");	
 			}
 		} catch (Exception e) {
 			EventLogger.addError(e.getMessage());
@@ -86,7 +89,7 @@ public class SoftphoneManager {
     }
     
 
-    private native void nSetRessourcePath(String path);
+    private native void nInitSoftphone(String ressourcesPath);
     private native void nConnectServer(String user, String password, String realm);
     private native void nDisconnectServer();
     private native void nSetAccessCodeList(String[] accessCodeList);
@@ -192,21 +195,44 @@ public class SoftphoneManager {
 		}
 	}
 	
-	public void addCall(int callId, String callPassword, int callStatus) {
-		this.softphoneView.addCall(callId, getCallerNameByPassword(callPassword), callStatus);
+	static public void sAddCall(int callId, String callPassword, int callStatus) {
+		SoftphoneManager.getInstance().addCall(callId, callPassword, callStatus);
 	}
-	
-	public void updateCallStatus(int callId, int callStatus) {
-		this.softphoneView.updateCallStatus(callId, callStatus);
+	public void addCall(int callId, String callPassword, int callStatus) {
+		if(this.softphoneView != null) {
+			this.softphoneView.addCall(callId, getCallerNameByPassword(callPassword), callStatus);
+		}
 	}
 
-	public void removeCall(int callId) {
-		this.softphoneView.removeCall(callId);
-	}
 	
+	static public void sUpdateCallStatus(int callId, int callStatus) {
+		SoftphoneManager.getInstance().updateCallStatus(callId, callStatus);
+	}
+	public void updateCallStatus(int callId, int callStatus) {
+		if(this.softphoneView != null) {
+			this.softphoneView.updateCallStatus(callId, callStatus);
+		}
+	}
+
+	
+	static public void sRemoveCall(int callId) {
+		SoftphoneManager.getInstance().removeCall(callId);
+	}
+	public void removeCall(int callId) {
+		if(this.softphoneView != null) {
+			this.softphoneView.removeCall(callId);
+		}
+	}
+
+	
+	static public void sUpdateConnectionStatus(int connectionStatus) {
+		SoftphoneManager.getInstance().updateConnectionStatus(connectionStatus);
+	}
 	public void updateConnectionStatus(int connectionStatus) {
 		this.connectionStatus = connectionStatus;
-		this.softphoneServerView.updateConnectionStatus(connectionStatus);
+		if(this.softphoneServerView != null) {
+			this.softphoneServerView.updateConnectionStatus(connectionStatus);
+		}
 	}
 	
 	private String getCallerNameByPassword(String password) {

@@ -167,7 +167,7 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 					
 					break;
 				case ConnectionStatus.UNABLE_TO_CONNECT:
-					
+
 					break;
 				case ConnectionStatus.DISCONNECTED:
 					
@@ -182,7 +182,8 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 				default:
 					break;
 				}
-				
+
+				statusTextLabel.setText(ConnectionStatus.getStatusLabel(connectionStatus));
 			}
 		});
 	}

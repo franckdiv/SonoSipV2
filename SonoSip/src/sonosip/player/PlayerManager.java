@@ -26,6 +26,7 @@ import sonosip.utils.EventLogger;
 import sonosip.views.PlayerView;
 import sonosip.views.RandomPlayerView;
 
+@SuppressWarnings("deprecation")
 public class PlayerManager extends PlaybackListener {
 
     private static PlayerManager instance;
