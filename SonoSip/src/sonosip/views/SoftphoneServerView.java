@@ -164,25 +164,41 @@ public class SoftphoneServerView extends ViewPart implements ISizeProvider {
 
 				switch (connectionStatus) {
 				case ConnectionStatus.NO_INTERNET:
-					
+						startButton.setEnabled(false);
+						stopButton.setEnabled(false);  
+						statusTextLabel.setForeground(new Color(parent.getDisplay(), 204, 0, 0));
+						reconnectButton.setEnabled(true);
 					break;
 				case ConnectionStatus.UNABLE_TO_CONNECT:
-
+						startButton.setEnabled(false); 
+						stopButton.setEnabled(false); 
+						statusTextLabel.setForeground(new Color(parent.getDisplay(), 204, 0, 0));
+						reconnectButton.setEnabled(true);
 					break;
 				case ConnectionStatus.DISCONNECTED:
-					
+						startButton.setEnabled(false); 
+						stopButton.setEnabled(false); 
+						statusTextLabel.setForeground(new Color(parent.getDisplay(), 150, 150, 150));
+						reconnectButton.setEnabled(false);
 					break;
 				case ConnectionStatus.CONNECTED:
-					
+						startButton.setEnabled(true); 
+						stopButton.setEnabled(false); 
+						statusTextLabel.setForeground(new Color(parent.getDisplay(), 0, 102, 153));
+						reconnectButton.setEnabled(false);
 					break;
 				case ConnectionStatus.CONNECTED_TRANSMITING:
-					
+						startButton.setEnabled(false); 
+						stopButton.setEnabled(true); 
+						statusTextLabel.setForeground(new Color(parent.getDisplay(), 102, 153, 0));
+						reconnectButton.setEnabled(false);
 					break;
 
 				default:
 					break;
 				}
 
+				statusImageHolder.setImage(new Image(parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("connection-" + connectionStatus + ".png")));
 				statusTextLabel.setText(ConnectionStatus.getStatusLabel(connectionStatus));
 			}
 		});

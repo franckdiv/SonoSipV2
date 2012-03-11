@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Listener;
 import sonosip.ressources.RessourcePathPointer;
 import sonosip.softphone.CallStatus;
 import sonosip.softphone.SoftphoneManager;
+import sonosip.utils.EventLogger;
 
 public class CallListItem extends Composite {
 
@@ -23,6 +24,12 @@ public class CallListItem extends Composite {
 	protected Button microphoneStartButton;
 	protected Button microphoneStopButton;
 	protected Button cancelRequestButton;
+	
+	protected String callerName;
+
+	public String getCallerName() {
+		return callerName;
+	}
 
 	protected int callStatus = 0;
 	protected int callId = 0;
@@ -54,6 +61,7 @@ public class CallListItem extends Composite {
 		super(parent, SWT.BORDER);
 		this.parent = parent;
 		this.callId = callId;
+		this.callerName = callerName;
 		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 5;
@@ -113,7 +121,6 @@ public class CallListItem extends Composite {
 		cancelRequestButton.setText("Annuler la demande");
 		cancelRequestButton.addListener (SWT.Selection, cancelRequestListener);
 
-
 		handleCallStatus(callStatus);
 	}
 	
@@ -155,6 +162,7 @@ public class CallListItem extends Composite {
 					statusTextLabel.pack();
 					backgroundImage = new Image(parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("bg-request-talking.png"));
 					this.setBackgroundImage(backgroundImage);
+					EventLogger.addAlert(this.callerName + " demande la parole");
 					break;
 				case CallStatus.SPEAKING:
 					statusImage = new Image(parent.getDisplay(), RessourcePathPointer.class.getResourceAsStream("icon-user-talking.png"));

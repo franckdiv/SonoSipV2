@@ -40,7 +40,6 @@ public class RecordView extends ViewPart implements ISizeProvider {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 

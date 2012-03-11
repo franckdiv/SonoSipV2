@@ -12,6 +12,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import sonosip.softphone.SoftphoneManager;
 import sonosip.softphone.ui.CallListItem;
+import sonosip.utils.EventLogger;
 
 public class SoftphoneView extends ViewPart {
 
@@ -23,6 +24,7 @@ public class SoftphoneView extends ViewPart {
 	private HashMap<Integer, CallListItem> 	callListItemList;
 	
 	public SoftphoneView() {
+		callListItemList = new HashMap<Integer, CallListItem>();
 	}
 
 	@Override
@@ -42,14 +44,17 @@ public class SoftphoneView extends ViewPart {
 		listItemHolder.setBackground(new Color(parent.getDisplay(), 255, 255, 255));
 	    
 	    scrolledComposite.setContent(listItemHolder);
-		
+	    
+	    		
 		computeScrolledCompositeSize();
 		SoftphoneManager.getInstance().setSoftphoneView(this);
+		
 	}
 	
 
 	private void computeScrolledCompositeSize() {
 		scrolledComposite.setMinHeight(listItemHolder.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		listItemHolder.layout();
 	}
 
 	@Override
@@ -60,6 +65,7 @@ public class SoftphoneView extends ViewPart {
 	public void addCall(final int callId, final String callerName, final int callStatus) {
 		this.parent.getDisplay().asyncExec (new Runnable () {
 			public void run () {	
+				
 				CallListItem c = new CallListItem(listItemHolder, callerName, callId, callStatus);
 				GridData gridData = new GridData();
 				gridData.horizontalAlignment = SWT.FILL;
@@ -69,6 +75,8 @@ public class SoftphoneView extends ViewPart {
 				callListItemList.put(new Integer(callId), c);
 				
 				computeScrolledCompositeSize();
+
+				EventLogger.addInfo(callerName + " s'est connecté");
 			}
 		});
 	}
@@ -77,7 +85,9 @@ public class SoftphoneView extends ViewPart {
 		this.parent.getDisplay().asyncExec (new Runnable () {
 			public void run () {	
 				CallListItem c = callListItemList.get(new Integer(callId));
-				c.handleCallStatus(callStatus);
+				if(c != null) {
+					c.handleCallStatus(callStatus);
+				}
 			}
 		});
 	}
@@ -86,9 +96,13 @@ public class SoftphoneView extends ViewPart {
 		this.parent.getDisplay().asyncExec (new Runnable () {
 			public void run () {	
 				CallListItem c = callListItemList.get(new Integer(callId));
-				c.dispose();
-				computeScrolledCompositeSize();
-				callListItemList.remove(new Integer(callId));
+				if(c != null) {
+
+					EventLogger.addInfo(c.getCallerName() + " s'est déconnecté");
+					c.dispose();
+					computeScrolledCompositeSize();
+					callListItemList.remove(new Integer(callId));
+				}
 			}
 		});
 	}
