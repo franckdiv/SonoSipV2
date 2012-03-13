@@ -77,11 +77,7 @@ public class SoftphoneManager {
 		try {		
 			File rootFolder = new File(Platform.getInstanceLocation().getURL().getFile());
 			if(rootFolder.exists()) {							
-/**
- * TODO remetre le bon chemin
- */
-				//nInitSoftphone(rootFolder.getParentFile().getAbsolutePath() + File.separator + "ext-ress");	
-				nInitSoftphone("c:" + File.separator + "ext-ress");	
+				nInitSoftphone(rootFolder.getParentFile().getAbsolutePath() + File.separator + "ext-ress");	
 				
 			}
 		} catch (Exception e) {
