@@ -84,7 +84,7 @@ public class PlayerManager extends PlaybackListener {
 		playerThread = null;
 
     	playerState = PlayerState.STOP;
-    	EventLogger.addInfo("Arrêt de la lecture des cantique");
+    	EventLogger.addInfo("Arrêt de la lecture du cantique");
     	notifyPlayerStateChange();
     }
     
