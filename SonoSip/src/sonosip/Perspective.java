@@ -30,14 +30,21 @@ public class Perspective implements IPerspectiveFactory {
 		layout.addStandaloneView(RandomPlayerView.ID, true, IPageLayout.BOTTOM, 0f , RecordView.ID);
 		layout.getViewLayout(RandomPlayerView.ID).setCloseable(false);  
 		layout.getViewLayout(RandomPlayerView.ID).setMoveable(false);
-		
-		layout.addStandaloneView(SoftphoneServerView.ID, true, IPageLayout.BOTTOM, 0f , RandomPlayerView.ID);
-		layout.getViewLayout(SoftphoneServerView.ID).setCloseable(false);  
-		layout.getViewLayout(SoftphoneServerView.ID).setMoveable(false); 
-		
+
 		layout.addStandaloneView(EventView.ID, true, IPageLayout.BOTTOM, 1f, SoftphoneView.ID);
 		layout.getViewLayout(EventView.ID).setCloseable(false);  
 		layout.getViewLayout(EventView.ID).setMoveable(false);
+		
+		if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight() < 768) {
+			layout.addStandaloneView(SoftphoneServerView.ID, true, IPageLayout.LEFT, 0f , EventView.ID);
+			layout.getViewLayout(SoftphoneServerView.ID).setCloseable(false);  
+			layout.getViewLayout(SoftphoneServerView.ID).setMoveable(false); 
+		} else {
+			layout.addStandaloneView(SoftphoneServerView.ID, true, IPageLayout.BOTTOM, 0f , RandomPlayerView.ID);
+			layout.getViewLayout(SoftphoneServerView.ID).setCloseable(false);  
+			layout.getViewLayout(SoftphoneServerView.ID).setMoveable(false);
+		}
+		
 		 
 	}
 }
