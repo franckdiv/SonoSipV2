@@ -91,7 +91,7 @@ public class RandomPlayerView extends ViewPart implements ISizeProvider {
 	public int computePreferredSize(boolean width, int availableParallel,
 			int availablePerpendicular, int preferredResult) {
 		if(width) {
-			return 360;
+			return 300;
 		} else {
 			return 53;
 		}
